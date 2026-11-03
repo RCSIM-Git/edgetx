@@ -1,51 +1,59 @@
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Edgetx/edgetx)](https://github.com/EdgeTX/edgetx/releases/latest)
-[![GitHub all releases](https://img.shields.io/github/downloads/EdgeTX/edgetx/total)](https://github.com/EdgeTX/edgetx/releases)
-[![GitHub license](https://img.shields.io/github/license/Edgetx/edgetx)](https://github.com/EdgeTX/edgetx/blob/main/LICENSE)
-[![Commit Tests](https://github.com/EdgeTX/edgetx/actions/workflows/build_fw.yml/badge.svg)](https://github.com/EdgeTX/edgetx/actions/workflows/build_fw.yml)
-[![GitHub CodesSpaces ready-to-code](https://img.shields.io/badge/GitHub%20CodesSpaces-ready--to--code-blue?logo=github)](https://codespaces.new/EdgeTX/edgetx)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+# EdgeTX — Open-Source R/C Radio Firmware (RCSIM Full-Duplex CRSF USB-VCP Fork)
+
+[![GitHub release](https://img.shields.io/github/v/release/Edgetx/edgetx)](https://github.com/EdgeTX/edgetx/releases/latest)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL_v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 [![Discord](https://img.shields.io/discord/839849772864503828.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/wF9wUKnZ6H)
-[![Support us on OpenCollective](https://img.shields.io/opencollective/all/edgetx)](https://opencollective.com/edgetx)
 
+> 🌐 **Language / Język:** **English** | [Polski](README_PL.md)
 
-<p align="center">
-<a href="https://raw.githubusercontent.com/EdgeTX/edgetx.github.io/master/docs/assets/logo.png"><img src="https://raw.githubusercontent.com/EdgeTX/edgetx.github.io/master/docs/assets/logo.png" align="center" height="150" width="150" ></a>
+Welcome to **EdgeTX**, the cutting-edge open-source firmware for R/C radio transmitters!
 
-# Welcome to EdgeTX!
-**The cutting edge open-source firmware for your R/C radio!**
+This repository is the **RCSIM development fork** of EdgeTX. It merges upstream EdgeTX with PR **#7630** (*CRSF Trainer over USB-VCP*) and our custom **Full-Duplex Telemetry Mirroring Engine (	elemetrySetMirrorCb)**, allowing radio transmitters (such as the RadioMaster MT12, Pocket, Boxer, TX16S, TX12, and Zorro) to function as low-latency bidirectional CRSF transceivers over a single USB-C cable.
 
+---
 
-### About EdgeTX
-EdgeTX is the cutting edge of OpenTX. It is the place where innovative ideas and cutting-edge features are developed and field-tested by the enthusiasts of our hobby. EdgeTX is a community project – ideas from the community, developed by the community, and enjoyed by the community! The community will always have a say in what EdgeTX is and what EdgeTX will be in the future. Without community feedback and involvement EdgeTX cannot exist.
+## 🚀 RCSIM Special Features: Full-Duplex CRSF USB-VCP
 
-### Community
-- [Discord](https://discord.gg/wF9wUKnZ6H)   
+Our modifications (active on branch pr/full-duplex-telemetry-mirror) unlock:
+* 🏎️ **Control Input (PC $\rightarrow$ Radio):** Transmit 16 RC channels (100–250 Hz) from your PC Ground Control Station (RCSIM-GCS, sim-racing wheel, pedals, flight yoke) straight into the EdgeTX mixer.
+* 🛰️ **Telemetry Output (Radio $\rightarrow$ PC):** Mirror real-time model telemetry (Battery voltage, Link Statistics / RSSI / LQ / SNR, GPS coordinates, IMU attitude) through the USB Virtual COM Port back to the PC for Force Feedback (FFB) and telemetry instrumentation.
+* 🔌 **Zero Hardware Adapters:** Standard USB-C cable connection; no external FTDI dongles or trainer cords required.
 
-- [Facebook](https://www.facebook.com/groups/edgetx)
+### Supported Targets & Flash Optimization
+- **RadioMaster MT12:** Surface radio target (optimized for cars/boats).
+- **RadioMaster Pocket:** 512KB STM32 flash-optimized target (stripped legacy PXX/Heli protocols).
+- **RadioMaster Boxer, TX16S/MKII, TX12/MKII, Zorro:** Experimental builds tested and verified.
 
-- [Github Discussions](https://github.com/EdgeTX/edgetx/discussions)
-  
-### Navigation Links
+---
 
-- [Community Guidelines](https://github.com/EdgeTX/edgetx.github.io/wiki/Community-Guidlines)
+## 🛠️ Building the RCSIM CRSF USB-VCP Firmware
 
-- [Installation Guide](https://manual.edgetx.org/installing-and-updating-edgetx/update-from-opentx-to-edgetx)
+### Prerequisites
+* CMake 3.20+
+* rm-none-eabi-gcc 10.3+ toolchain
+* Python 3.8+ with jinja2 and pillow
 
-- [Installation Video](https://www.youtube.com/watch?v=Y9OvW9XCjOs)
+### Build Example (RadioMaster MT12):
+`ash
+git checkout pr/full-duplex-telemetry-mirror
+mkdir -p build && cd build
+cmake -DPCB=MT12 -DPCBREV=REV00 -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+`
 
-- [Reporting Issues / Requesting features](https://github.com/EdgeTX/edgetx/issues/new/choose)
+The resulting binary (mt12-*.bin) can be flashed via the **EdgeTX Bootloader** (holding horizontal trims inward while powering on).
 
-- [Lua Documentation Site](https://luadoc.edgetx.org/)
-  
-- Buddy: [Info](https://github.com/EdgeTX/buddy) - [Downloads](https://github.com/EdgeTX/buddy/releases) 
+---
 
-- SD Card: [Info](https://github.com/EdgeTX/edgetx-sdcard) - [Downloads](https://github.com/EdgeTX/edgetx-sdcard/releases)
+## 📖 About Upstream EdgeTX
 
-- Sound Packs:  [Info](https://github.com/EdgeTX/edgetx-sdcard-sounds) - [Downloads](https://github.com/EdgeTX/edgetx-sdcard-sounds/releases)
+EdgeTX is the cutting edge of OpenTX, driven by an enthusiastic open-source community:
+* **Community:** [EdgeTX Discord](https://discord.gg/wF9wUKnZ6H) | [EdgeTX Discussions](https://github.com/EdgeTX/edgetx/discussions)
+* **Official Manual:** [EdgeTX User Guide](https://manual.edgetx.org/)
+* **Lua Docs:** [Lua Documentation Site](https://luadoc.edgetx.org/)
 
-- [Developer Documentation](https://edgetx.org/edgetx/latest/) - [Docker Build Environment](https://github.com/EdgeTX/build-edgetx)
+---
 
+## 📜 License
 
-## Acknowledgements
-Some icon assets provided by [ICONS8](https://icons8.com).</br>
-Lua Documentation site powered with the kind support of [GitBook](https://www.gitbook.com).
+Distributed under the [GNU General Public License v2.0 (GPL-2.0)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
